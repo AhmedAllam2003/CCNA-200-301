@@ -1,0 +1,71 @@
+Server1
+int range e0/0-2
+sw tr enc dot1q
+sw mo tr
+exit
+vtp domain ahmed
+vtp pass 1234
+vtp mode server
+vlan 10
+vlan 20
+exit
+-----------
+Client1
+int range e0/0,e0/2
+sw tr enc dot1q
+sw mo tr
+exi
+vtp domain ahmed
+vtp password 1234
+vtp mode client
+int e0/1
+sw mo acc
+sw acc vlan 10
+-------------
+Client2
+int range e0/0,e0/2
+sw tr enc dot1q
+sw mo tr
+exi
+vtp domain ahmed
+vtp password 1234
+vtp mode client
+int e0/1
+sw mo acc
+sw acc vlan 20
+------------------------------------------------------------------------------------
+Server2
+int range e0/0-2
+sw tr enc dot1q
+sw mo tr
+exit
+vtp domain ahmed
+vtp pass 1234
+vtp mode server
+vlan 30
+vlan 40
+exit
+-----------
+Client3
+int range e0/0,e0/2
+sw tr enc dot1q
+sw mo tr
+exi
+vtp domain ahmed
+vtp password 1234
+vtp mode client
+int e0/1
+sw mo acc
+sw acc vlan 30
+-------------
+Client4
+int range e0/0,e0/2
+sw tr enc dot1q
+sw mo tr
+exi
+vtp domain ahmed
+vtp password 1234
+vtp mode client
+int e0/1
+sw mo acc
+sw acc vlan 40

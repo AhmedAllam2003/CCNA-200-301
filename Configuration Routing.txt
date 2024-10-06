@@ -1,0 +1,105 @@
+R1
+------
+int g0/0
+ip add 10.0.0.1 255.0.0.0
+no sh
+int g0/1
+ip add 20.0.0.1 255.0.0.0
+no sh
+exit
+router ospf 1
+network 10.0.0.0 0.255.255.255 area 0
+network 20.0.0.0 0.255.255.255 area 0
+exit
+---------------------------------------------------------
+R3
+int g0/0
+ip add 30.0.0.3 255.0.0.0
+no sh
+int g0/1
+ip add 40.0.0.3 255.0.0.0
+no sh
+exit
+router ospf 1
+network 30.0.0.0 0.255.255.255 area 0
+network 40.0.0.0 0.255.255.255 area 0
+exit
+----------------------------------------------------------
+DHCP1
+int g0/0
+ip add 10.0.0.2 255.0.0.0
+no sh
+int g0/1
+ip add 30.0.0.2 255.0.0.0
+no sh
+int g0/2
+no sh
+int g0/2.10
+enc dotiq 10
+ip add 192.168.10.1 255.255.255.0
+no sh
+int g0/2.20
+enc dot1q 20
+ip add 192.168.20.1 255.255.255.0
+no sh
+exit
+router ospf 1
+network 10.0.0.0 0.255.255.255 area 0
+network 30.0.0.0 0.255.255.255 area 0
+network 192.168.10.0 0.0.0.255 area 0
+network 192.168.20.0 0.0.0.255 area 0
+exit
+ip dhcp excluded-address 192.168.10.1 
+ip dhcp excluded-address 192.168.20.1 
+ip dhcp pool 10
+network 192.168.10.0 255.255.255.0 
+default-router 192.168.10.1
+dns-server 8.8.8.8 
+domain-name allam.com
+exit 
+ip dhcp pool 20 
+net 192.168.20.1 255.255.255.0 
+default-router 192.168.20.1 
+dns-server 8.8.8.8 
+domain-name allam.com
+exit 
+---------
+DHCP2
+int g0/0
+ip add 20.0.0.4 255.0.0.0
+no sh
+int g0/1
+ip add 40.0.0.4 255.0.0.0
+no sh
+int g0/2
+no sh
+int g0/2.30
+enc dot1q 30
+ip add 192.168.30.1 255.255.255.0
+no sh
+int g0/2.40
+enc dot1q 40
+ip add 192.168.40.1 255.255.255.0
+no sh
+exit
+router ospf 1
+network 20.0.0.0 0.255.255.255 area 0
+network 40.0.0.0 0.255.255.255 area 0
+network 192.168.30.0 0.0.0.255 area 0
+network 192.168.40.0 0.0.0.255 area 0
+exit
+ip dhcp excluded-address 192.168.30.1 
+ip dhcp excluded-address 192.168.40.1 
+ip dhcp pool 30 
+network 192.168.30.1 255.255.255.0 
+default-router 192.168.30.1 
+dns-server 8.8.8.8 
+domain-name allam.com 
+exit 
+ip dhcp pool 40 
+network 192.168.40.1 255.255.255.0 
+default-router 192.168.40.1 
+dns-server 8.8.8.8 
+domain-name allam.com
+exit 
+----------------------------------------------------------------------------------
